@@ -1,4 +1,4 @@
-import { assertArrayIncludes } from "https://deno.land/std@0.156.0/testing/asserts.ts";
+import { assertArrayIncludes, assertEquals} from "https://deno.land/std@0.156.0/testing/asserts.ts";
 import {
   addNewUserToUserList,
   getDiffScreenNames,
@@ -19,13 +19,23 @@ Deno.test("user.jsonの読み込み", () => {
   ]);
 });
 
-Deno.test("diff user", () => {
+Deno.test("新規のユーザーのみ抽出", () => {
   const screenName = ["hoge", "huga"];
   const diff = getDiffScreenNames(
     ["nillpo", ...screenName],
     [{ screen_name: "nillpo", id: "123", isListed: false }],
   );
   assertArrayIncludes(diff, screenName);
+});
+
+Deno.test("新規のユーザーのみ抽出", () => {
+  const screenName = ["hoge", "huga"];
+  const diff = getDiffScreenNames(
+    ["nillpo", ...screenName],
+    [{ screen_name: "nillpo", id: "123", isListed: false },
+    { screen_name: "huga", id: "123", isListed: false }],
+  );
+  assertEquals(diff, ["hoge"]);
 });
 
 Deno.test("スクリーンネームから現在のユーザーリストに追加", () => {

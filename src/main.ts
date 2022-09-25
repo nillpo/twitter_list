@@ -31,7 +31,7 @@ export function getDiffScreenNames(
 ): string[] {
   const alreadyListedScreenNames = users.map((user) => user.screen_name);
   const newScreenNames = screenNameList.filter((id1) =>
-    alreadyListedScreenNames.findIndex((id2) => id1 === id2)
+    alreadyListedScreenNames.findIndex((id2) => id1 === id2) === -1
   );
   return newScreenNames;
 }
@@ -52,7 +52,7 @@ export function addNewUserToUserList(
 
 if (import.meta.main) {
   const screenNames = loadScreenNameList("./screen_name.txt");
-  const users = loadUserList("user.json");
+  const users = loadUserList("./user.json");
   Deno.writeTextFile(
     "user.json",
     JSON.stringify(addNewUserToUserList(screenNames, users)),
